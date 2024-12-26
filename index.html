@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fun Facts Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #333333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Random Fun Facts</h1>
+        <button id="generateFactBtn">Generate Fact</button>
+        <p id="factDisplay">Click the button to see a fun fact!</p>
+    </div>
+    <script>
+        const facts = [
+            "Octopuses have three hearts, nine brains, and blue blood, which makes them one of the most fascinating creatures in the ocean; two hearts pump blood to the gills, while the third pumps it to the rest of the body, and each of their eight arms has a mini-brain that allows them to act independently.",
+            "Bananas are berries, but strawberries aren't; botanically speaking, a berry is a fruit produced from the ovary of a single flower with seeds embedded in the flesh, which makes bananas, cucumbers, and kiwis true berries, while strawberries, raspberries, and blackberries are not.",
+            "Honey never spoils, and archaeologists have found pots of honey in ancient Egyptian tombs that are over 3,000 years old and still perfectly edible, thanks to its natural preservatives like low moisture content and acidic pH, which inhibit the growth of bacteria and microorganisms.",
+            "Venus is the hottest planet in our solar system, with surface temperatures reaching up to 900 degrees Fahrenheit (475 degrees Celsius), even though Mercury is closer to the Sun, because Venus has a thick atmosphere composed mainly of carbon dioxide, which creates a runaway greenhouse effect.",
+            "Sharks have been around for over 400 million years, making them older than dinosaurs, trees, and even the rings of Saturn; they have survived five mass extinctions and have evolved into over 500 species, ranging from the tiny dwarf lanternshark to the massive whale shark.",
+            "The Eiffel Tower can be 15 cm taller during the summer due to thermal expansion, which occurs when the iron structure heats up and the particles gain kinetic energy, causing them to move apart and the tower to expand.",
+            "Wombat poop is cube-shaped, which is a unique adaptation that prevents the feces from rolling away, allowing wombats to mark their territory effectively; this peculiar shape is due to the varying elasticity of the intestines as the poop passes through.",
+            "A day on Venus is longer than a year on Venus; it takes about 243 Earth days for Venus to complete one rotation on its axis, but only about 225 Earth days to complete one orbit around the Sun, making a day longer than a year on this planet.",
+            "The Great Wall of China is not visible from space with the naked eye, contrary to popular belief; while it is an impressive feat of engineering stretching over 13,000 miles, its materials and color blend with the natural landscape, making it difficult to discern from orbit.",
+            "Sloths can hold their breath longer than dolphins; while dolphins can hold their breath for about 10 minutes, sloths can slow their heart rate and hold their breath for up to 40 minutes underwater, which helps them avoid predators.",
+            "The human brain is the most energy-consuming organ in the body, using up to 20% of the body's total energy despite only accounting for about 2% of the body's weight, which is why maintaining a balanced diet is crucial for cognitive function and overall brain health.",
+            "Butterflies can taste with their feet, as they have taste sensors on their tarsi (the equivalent of feet) that allow them to detect the chemical composition of plants, helping them determine whether a plant is suitable for laying eggs or feeding.",
+            "Jellyfish have been around for over 500 million years, making them one of the oldest living creatures on Earth, and they have survived through various mass extinctions due to their simple body structure and ability to adapt to different environments.",
+            "The Amazon Rainforest produces more than 20% of the world's oxygen, often referred to as the 'lungs of the planet,' and it is home to an estimated 390 billion individual trees divided into 16,000 species, playing a crucial role in regulating the Earth's climate.",
+            "The shortest war in history was between Britain and Zanzibar on August 27, 1896, lasting only 38 minutes, after which the Sultan of Zanzibar surrendered, marking a swift end to the conflict with minimal casualties.",
+            "A group of flamingos is called a 'flamboyance,' which is fitting given their vibrant pink color, which comes from the carotenoid pigments in the algae and crustaceans they eat, and their synchronized movements during courtship displays.",
+            "The world's largest desert is not the Sahara, but Antarctica, which is classified as a cold desert due to its low precipitation levels, receiving only about 2 inches of snow per year, making it drier than the Sahara Desert.",
+            "The mantis shrimp has one of the most complex visual systems in the animal kingdom, with 16 types of photoreceptor cells compared to humans' three, allowing them to see polarized light and detect ten times more color than humans.",
+            "The longest recorded flight of a chicken is 13 seconds, which is quite impressive considering chickens are not known for their flying abilities, as they have been bred primarily for meat and egg production rather than flight.",
+            "The world's largest living organism is a fungus called Armillaria ostoyae, also known as the 'honey fungus,' which covers an area of over 2,385 acres in Oregon's Malheur National Forest and is estimated to be around 2,400 years old.",
+            "The blue whale is the largest animal ever known to have existed, reaching lengths of up to 100 feet and weighing as much as 200 tons, with a heart the size of a small car and a tongue that can weigh as much as an elephant.",
+            "The honeybee is the only insect that produces food eaten by humans, and to make one pound of honey, bees must visit approximately 2 million flowers and fly over 55,000 miles, which is more than twice the circumference of the Earth.",
+            "The Great Barrier Reef is the largest living structure on the planet, stretching over 1,400 miles and consisting of nearly 3,000 individual reefs and 900 islands, and it can even be seen from space due to its massive size.",
+            "The tardigrade, also known as the water bear, is one of the most resilient creatures on Earth, capable of surviving extreme conditions such as temperatures close to absolute zero, pressures six times greater than those found in the deepest ocean trenches, and even the vacuum of space.",
+            "The world's oldest known 'your mom' joke is over 3,500 years old, discovered on a Babylonian tablet dating back to 1500 BC, proving that humor and playful banter have been a part of human culture for millennia.",
+            "The human body contains enough fat to make seven bars of soap, and while this might sound surprising, it highlights the body's ability to store energy reserves for times of need, a trait that has been crucial for survival throughout human evolution.",
+            "The moon is slowly drifting away from Earth at a rate of about 1.5 inches per year, which means that in about 600 million years, a total solar eclipse will no longer be possible because the moon will appear too small to completely cover the sun.",
+            "The world's largest snowflake on record was 15 inches wide and 8 inches thick, reportedly observed in Fort Keogh, Montana, in 1887, and while this measurement is difficult to verify, it remains a fascinating anecdote about the wonders of nature.",
+            "The electric eel can produce a shock of up to 600 volts, which is enough to stun a horse, and this remarkable ability is used both for hunting prey and for self-defense, making it one of the most electrifying creatures in the animal kingdom.",
+            "The fingerprints of a koala are so similar to humans that they can confuse crime scene investigators, and this unique trait is shared by only a few other species, highlighting the fascinating diversity of adaptations in the animal world.",
+            "The planet Jupiter has the shortest day of all the planets in our solar system, completing a full rotation on its axis in just under 10 hours, which means that despite its massive size, its rapid rotation causes it to have a noticeable equatorial bulge.",
+            "The world's largest pearl was discovered by a Filipino fisherman in the Palawan Sea and weighs an astonishing 75 pounds, measuring over 2 feet long, and it was kept under his bed as a good luck charm for over a decade before being revealed to the public.",
+            "The human nose can detect over 1 trillion different scents, thanks to the complex olfactory system that involves hundreds of receptors, each capable of identifying a unique molecular feature, making our sense of smell incredibly nuanced and sensitive.",
+            "The world's deepest postbox is located in Susami Bay, Japan, and is submerged 10 meters underwater, allowing divers to send waterproof postcards as a unique tourist attraction, highlighting the creative ways people connect with others from the depths of the ocean.",
+            "The shortest commercial flight in the world is between the islands of Westray and Papa Westray in Scotland's Orkney Islands, covering a distance of just 1.7 miles and taking only about 90 seconds, providing a quick yet essential connection for the island's residents.",
+            "The world's largest pumpkin on record weighed over 2,600 pounds and was grown by a Belgian horticulturist, showcasing the incredible potential of selective breeding and optimal growing conditions in producing gigantic fruits and vegetables.",
+            "The human eye can distinguish approximately 10 million different colors, thanks to the complex interplay of photoreceptor cells in the retina, which allows us to perceive a vast spectrum of hues and shades in the world around us.",
+            "The world's oldest piece of chewing gum is over 9,000 years old, discovered in Finland and made from birch bark tar, which was used by ancient people not only for chewing but also for its antiseptic properties and as an adhesive.",
+            "The longest recorded time a person has held their breath underwater is 24 minutes and 3 seconds, achieved by a professional freediver using a technique called static apnea, which involves hyperventilating pure oxygen before submersion to extend breath-holding capacity.",
+            "The world's largest snow maze was built in Manitoba, Canada, covering an area of over 30,000 square feet, and it was constructed using thousands of blocks of snow, providing a fun and challenging winter attraction for visitors of all ages.",
+            "The world's largest cave is Son Doong Cave in Vietnam, which is so vast that it has its own river, jungle, and climate, and its largest chamber is over 3 miles long, 660 feet high, and 490 feet wide, making it a natural wonder that continues to captivate explorers and scientists alike.",
+            "The human skeleton is not as static as it seems; it is constantly being broken down and rebuilt, with the entire skeleton being replaced approximately every 10 years, a process known as bone remodeling, which helps maintain bone strength and mineral balance.",
+            "The world's longest-running experiment is the Pitch Drop Experiment, which began in 1927 at the University of Queensland in Australia, demonstrating the viscosity of pitch, a tar-like substance, by allowing it to slowly drip through a funnel, with only nine drops falling in nearly a century.",
+            "The cheetah is the fastest land animal, capable of reaching speeds up to 75 miles per hour in short bursts covering distances up to 1,500 feet, and its acceleration from 0 to 60 miles per hour in just a few seconds is faster than most sports cars.",
+            "The world's largest flower is the Rafflesia arnoldii, which can grow up to 3 feet in diameter and weigh up to 15 pounds, and it emits a strong odor of rotting flesh to attract pollinators, earning it the nickname 'corpse flower.'",
+            "The human stomach produces a new layer of mucus every two weeks to prevent it from digesting itself, as the stomach's acidic environment is strong enough to break down food and kill harmful bacteria, but also requires protection from its own corrosive nature.",
+            "The world's oldest known living tree is a bristlecone pine named Methuselah, located in California's White Mountains, and it is estimated to be over 4,800 years old, having germinated around the same time as the construction of the Great Pyramid of Giza.",
+            "The peregrine falcon is the fastest bird, capable of reaching speeds over 240 miles per hour during its hunting stoop (high-speed dive), making it not only the fastest bird but also the fastest animal on the planet.",
+            "The world's largest chocolate bar weighed over 12,000 pounds and was created by a chocolate company in the UK, measuring nearly 14 feet long and 9 feet wide, setting a Guinness World Record for the largest chocolate bar by weight.",
+            "The human liver is the only internal organ capable of regenerating itself, and it can regrow to its full size even if up to 75% of it is removed, a remarkable ability that has made liver transplants and partial liver donations possible."
+        ];
+
+        document.getElementById('generateFactBtn').addEventListener('click', function() {
+            const randomIndex = Math.floor(Math.random() * facts.length);
+            document.getElementById('factDisplay').textContent = facts[randomIndex];
+        });
+    </script>
+</body>
+</html>
 
